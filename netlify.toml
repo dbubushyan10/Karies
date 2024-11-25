@@ -11,3 +11,8 @@ command = "npm run build"
 
 [context.branch-deploy]
 command = "npm run build"
+
+[[redirects]]
+from = "/images/*"
+to = "/images/:splat"
+status = 200
