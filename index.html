@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Диагностика кариеса</title>
+  </head>
+  <body>
+    <div id="app">
+      <button id="start-btn">Начать тест</button>
+      <div
+        id="question-container"
+        style="display: none"
+      >
+        <img
+          id="question-img"
+          src=""
+          alt="Вопрос"
+        />
+        <form id="question-form">
+          <label>
+            <input
+              type="radio"
+              name="answer"
+              value="0"
+            />
+            Вариант 1
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="answer"
+              value="1"
+            />
+            Вариант 2
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="answer"
+              value="2"
+            />
+            Вариант 3
+          </label>
+          <button type="submit">Ответить</button>
+        </form>
+      </div>
+      <div
+        id="result"
+        style="display: none"
+      >
+        <p>Результат: <span id="score"></span></p>
+        <p id="recommendations"></p>
+        <button id="restart-btn">Начать тест заново</button>
+      </div>
+      <form id="appointment-form"></form>
+    </div>
+    <script src="dist/bundle.js"></script>
+  </body>
+</html>
