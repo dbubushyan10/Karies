@@ -225,7 +225,7 @@ function showNextQuestion() {
     return
   }
   const question = questions[currentQuestion]
-  questionImg.src = `./${question.img}`
+  questionImg.src = `./images/${question.img}`
   questionForm.innerHTML = `
     <p>${question.question}</p>
     ${question.answers
@@ -318,7 +318,7 @@ function showAppointmentForm() {
     const time = document.getElementById("time").value
     if (name && phone && time) {
       alert(
-        `Спасибо, ${name}! Вы записаны на прием к врачу Бубушяну Мишелю Бруновичу на ${time}. Мы свяжемся с вами по номеру ${phone}.`
+        `Спасибо, ${name}! Вы записаны на прием к врачу Бубшян Мишелю Бруновичу на ${time}. Мы свяжемся с вами по номеру ${phone}.`
       )
       appointmentForm.style.display = "none"
     } else {
