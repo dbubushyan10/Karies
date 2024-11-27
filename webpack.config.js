@@ -6,13 +6,16 @@ module.exports = {
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
-    publicPath: "/",
   },
   module: {
     rules: [
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(jpg|png|gif)$/,
+        use: ["file-loader"],
       },
     ],
   },
@@ -23,7 +26,7 @@ module.exports = {
   ],
   devServer: {
     static: {
-      directory: path.join(__dirname, "public"),
+      directory: path.join(__dirname, "dist"),
     },
     open: true,
   },

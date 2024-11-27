@@ -4,13 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack serve --mode development",
-    "build": "webpack --mode production"
-  },
-  "dependencies": {
-    "inflight": "^1.0.6",
-    "rimraf": "^4.0.7",
-    "glob": "^9.3.0"
+    "dev": "webpack serve --mode development"
   },
   "keywords": [],
   "author": "",

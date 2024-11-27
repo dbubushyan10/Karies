@@ -7,6 +7,8 @@
       content="width=device-width, initial-scale=1.0"
     />
     <title>Диагностика кариеса</title>
+    <!-- Удалите эту строку -->
+    <!-- <link rel="stylesheet" href="public/style.css"> -->
   </head>
   <body>
     <div id="app">
@@ -15,6 +17,11 @@
         id="question-container"
         style="display: none"
       >
+        <img
+          id="question-img"
+          src=""
+          alt="Вопрос"
+        />
         <form id="question-form">
           <label>
             <input
@@ -48,7 +55,6 @@
         style="display: none"
       >
         <p>Результат: <span id="score"></span></p>
-        <p id="recommendations"></p>
         <button id="restart-btn">Начать тест заново</button>
       </div>
     </div>
