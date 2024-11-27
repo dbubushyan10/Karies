@@ -1,18 +1,8 @@
 [build]
-base = "/"
-publish = "dist"
-command = "npm run build"
+  command = "npm run build"
+  publish = "dist"
 
-[context.production]
-command = "npm run build"
-
-[context.deploy-preview]
-command = "npm run build"
-
-[context.branch-deploy]
-command = "npm run build"
-
-[[redirects]]
-from = "/images/*"
-to = "/images/:splat"
-status = 200
+[dev]
+  command = "npm run dev"
+  port = 8888
+  targetPort = 8080
