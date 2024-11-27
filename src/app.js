@@ -77,6 +77,39 @@ button {
 button:hover {
   background-color: #45a049;
 }
+
+#recommendation {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+}
+
+#recommendation h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+#recommendation p {
+  font-size: 1.2em;
+  line-height: 1.5;
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #ff5252;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: none;
+}
 `
 
 const style = document.createElement("style")
@@ -88,8 +121,14 @@ const questions = [
   {
     img: img1,
     question: "Сколько вам лет?",
-    answers: ["до 14 лет", "15-24 года", "25-44 года"],
-    points: [0, 1, 2],
+    answers: [
+      "до 14 лет",
+      "15-24 года",
+      "25-44 года",
+      "45-64 лет",
+      "старше 65 лет",
+    ],
+    points: [0, 1, 2, 3, 3],
   },
   {
     img: img2,
@@ -134,6 +173,7 @@ const questions = [
       "никакие",
     ],
     points: [0, 0, 0, 0, 0, 1],
+    multiple: true,
   },
   {
     img: img8,
@@ -165,6 +205,12 @@ const questionForm = document.getElementById("question-form")
 const resultContainer = document.getElementById("result")
 const scoreDisplay = document.getElementById("score")
 const restartBtn = document.getElementById("restart-btn")
+const recommendationContainer = document.createElement("div")
+recommendationContainer.id = "recommendation"
+const notification = document.createElement("div")
+notification.className = "notification"
+notification.textContent = "Пожалуйста, выберите хотя бы один вариант ответа."
+document.body.appendChild(notification)
 
 // Функция отображения следующего вопроса
 function showNextQuestion() {
@@ -174,13 +220,14 @@ function showNextQuestion() {
   }
   const question = questions[currentQuestion]
   questionImg.src = question.img
+  const inputType = question.multiple ? "checkbox" : "radio"
   questionForm.innerHTML = `
     <p>${question.question}</p>
     ${question.answers
       .map(
         (answer, idx) => `
       <label>
-        <input type="radio" name="answer" value="${idx}">
+        <input type="${inputType}" name="answer" value="${idx}">
         ${answer}
       </label>
     `
@@ -193,14 +240,23 @@ function showNextQuestion() {
 // Обработчик отправки формы
 questionForm.addEventListener("submit", function (event) {
   event.preventDefault()
-  const selectedAnswer = parseInt(
-    document.querySelector('input[name="answer"]:checked')?.value
-  )
-  if (selectedAnswer !== undefined) {
-    totalScore += questions[currentQuestion].points[selectedAnswer]
-    currentQuestion++
-    showNextQuestion()
+  const selectedAnswers = Array.from(
+    document.querySelectorAll('input[name="answer"]:checked')
+  ).map((input) => parseInt(input.value))
+  if (selectedAnswers.length === 0) {
+    notification.style.display = "block"
+    setTimeout(() => {
+      notification.style.display = "none"
+    }, 3000)
+    return
   }
+  let points = 0
+  selectedAnswers.forEach((answer) => {
+    points += questions[currentQuestion].points[answer]
+  })
+  totalScore += points
+  currentQuestion++
+  showNextQuestion()
 })
 
 // Функция для отображения результата
@@ -209,15 +265,29 @@ function showResult() {
   resultContainer.style.display = "block"
   scoreDisplay.textContent = totalScore
 
+  let recommendation = ""
   if (totalScore <= 4) {
     scoreDisplay.textContent += " (Низкий риск)"
+    recommendation = "Продолжать гигиену полости рта."
   } else if (totalScore <= 8) {
     scoreDisplay.textContent += " (Средний риск)"
+    recommendation =
+      "Соблюдать гигиену полости рта, ограничить употребление быстроусвояемых углеводов."
   } else if (totalScore <= 12) {
     scoreDisplay.textContent += " (Высокий риск)"
+    recommendation =
+      "Визит к врачу-стоматологу, соблюдать гигиену полости рта, ограничить употребление быстроусвояемых углеводов."
   } else {
     scoreDisplay.textContent += " (Очень высокий риск)"
+    recommendation =
+      "Более частые визиты к врачу-стоматологу, использование специальных паст по рекомендации стоматолога, соблюдать гигиену полости рта, ограничить употребление быстроусвояемых углеводов."
   }
+
+  recommendationContainer.innerHTML = `
+    <h2>Рекомендации</h2>
+    <p>${recommendation}</p>
+  `
+  resultContainer.appendChild(recommendationContainer)
 }
 
 // Обработчик перезапуска теста
